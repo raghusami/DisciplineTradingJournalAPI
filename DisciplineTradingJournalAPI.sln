@@ -5,9 +5,7 @@ VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisciplineTradingJournalAPI", "DisciplineTradingJournalAPI.csproj", "{9CEE509C-CCAD-45CC-87FD-D4E3E256A72F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{E024B821-D12A-4458-A3EC-E690B42C062E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTAuthenticationManager", "..\JWTAuthenticationManager\JWTAuthenticationManager.csproj", "{6016061C-CB1B-4B51-A2C4-1A21EA69F032}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTAuthenticationManager", "..\..\JWTAuthenticationManager\JWTAuthenticationManager.csproj", "{2CDBCD74-3783-C94C-5061-5A6B74DDED3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +17,13 @@ Global
 		{9CEE509C-CCAD-45CC-87FD-D4E3E256A72F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CEE509C-CCAD-45CC-87FD-D4E3E256A72F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CEE509C-CCAD-45CC-87FD-D4E3E256A72F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6016061C-CB1B-4B51-A2C4-1A21EA69F032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6016061C-CB1B-4B51-A2C4-1A21EA69F032}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6016061C-CB1B-4B51-A2C4-1A21EA69F032}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6016061C-CB1B-4B51-A2C4-1A21EA69F032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CDBCD74-3783-C94C-5061-5A6B74DDED3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CDBCD74-3783-C94C-5061-5A6B74DDED3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CDBCD74-3783-C94C-5061-5A6B74DDED3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CDBCD74-3783-C94C-5061-5A6B74DDED3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{6016061C-CB1B-4B51-A2C4-1A21EA69F032} = {E024B821-D12A-4458-A3EC-E690B42C062E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA1E05E7-FD87-40D7-BA4D-4E086561B020}

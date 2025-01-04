@@ -24,6 +24,6 @@
     <PackageReference Include="System.Threading.RateLimiting" Version="8.0.0-rc.1.23419.4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JWTAuthenticationManager\JWTAuthenticationManager.csproj" />
+    <ProjectReference Include="..\..\JWTAuthenticationManager\JWTAuthenticationManager.csproj" />
   </ItemGroup>
 </Project>
