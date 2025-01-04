@@ -4,6 +4,7 @@ using DisciplineTradingJournalAPI.Helper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,11 +23,15 @@ namespace DisciplineTradingJournalAPI.DBModel
             _performanceMetric = performanceMetric;
         }
 
-        public async Task<IEnumerable<UserTrades>> GetAllAsync()
+        public async Task<List<UserTrades>> GetAllAsync(int userID)
         {
-            return await _context.UserTrades.ToListAsync();
+            // Retrieve the user's trades
+            var trades = await _context.UserTrades
+                .Where(x => x.UserID == userID)
+                .OrderBy(t => t.ExitDate) 
+                .ToListAsync();
+            return trades;
         }
-
         public async Task<UserTrades> GetByIdAsync(int tradeID)
         {
             return await _context.UserTrades.FindAsync(tradeID);
@@ -34,11 +39,20 @@ namespace DisciplineTradingJournalAPI.DBModel
 
         public async Task<UserTrades> AddAsync(UserTrades userTrade)
         {
+            try
+            {
 
-            userTrade.CapitalUsed = (userTrade.Quantity * userTrade.EntryPrice);
-            _context.UserTrades.Add(userTrade);
-            await _context.SaveChangesAsync();
+
+                userTrade.CapitalUsed = (userTrade.Quantity * userTrade.EntryPrice);
+                _context.UserTrades.Add(userTrade);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+
+            }
             return userTrade;
+
         }
 
         public async Task<UserTrades> UpdateAsync(UserTrades userTrade)
@@ -84,7 +98,9 @@ namespace DisciplineTradingJournalAPI.DBModel
             _context.Entry(userTradeUpdate).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            await _performanceMetric.CalculateMetricsAsync(userTradeUpdate.UserID);
+            var trades = await GetAllAsync(userTradeUpdate.UserID);
+
+            await _performanceMetric.CalculateMetricsAsync(userTradeUpdate.UserID, trades);
 
             return userTradeUpdate;
         }
@@ -99,48 +115,68 @@ namespace DisciplineTradingJournalAPI.DBModel
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task<UsersPositionsAndPerformanceMetrics> GetUsersOpenPositionsAsync(int userID)
+        
+        public async Task<List<UserOpenPositions>> GetUsersOpenPositionsAsync(int userID)
+        {
+            // Fetching the user's open positions
+            var userOpenPositionsResult = await _context.UserTrades
+                .Where(x => x.UserID == userID && x.PositionStatus == Constants.PositionStatusOpen)
+                .Select(x => new UserOpenPositions
+                {
+                    TradeID = x.TradeID,
+                    UserID = x.UserID,
+                    Symbol = x.Symbol,
+                    CurrentPrice = x.ExitPrice ?? 0,
+                    EntryPrice = x.EntryPrice,
+                    Quantity = x.Quantity,
+                    ProfitAndLoss = _trading.ProfitAndLoss(x.EntryPrice, x.ExitPrice ?? 0, x.Quantity),
+                    Change = _trading.Changes(x.EntryPrice, x.ExitPrice ?? 0)
+                })
+                .ToListAsync();
+
+            return userOpenPositionsResult;
+        }
+        public async Task<List<UserClosePositions>> GetUsersClosedPositionsAsync(int userID)
+        {
+
+            // Fetching the user's closed positions
+            var userClosedPositionsResult = await _context.UserTrades
+                .Where(x => x.UserID == userID && x.PositionStatus == Constants.PositionStatusClosed)
+                .Select(x => new UserClosePositions
+                {
+                    TradeID = x.TradeID,
+                    UserID = x.UserID,
+                    Symbol = x.Symbol,
+                    ExitPrice = x.ExitPrice ?? 0,
+                    EntryPrice = x.EntryPrice,
+                    Quantity = x.Quantity,
+                    ProfitAndLoss = x.NetProfitLoss,
+                    Change = x.Change,
+                    BrokerCharges = x.BrokerCharges,
+                    TradeStatus = x.TradeStatus,
+                    MarketType = x.MarketType,
+                    TradeType = x.TradeType,
+                    HoldingDays = x.ExitDate.HasValue
+                    ? (x.ExitDate.Value - x.EntryDate).TotalDays : 0,
+                    TradeEntryDate = x.ExitDate,
+                    InvestmentAmount = x.CapitalUsed,
+                    NetROI = ((x.NetProfitLoss / x.CapitalUsed) * 100)
+                })
+                .ToListAsync();
+
+            return userClosedPositionsResult;
+        }
+        public async Task<UsersClosedPositionsAndPerformanceMetrics> GetUsersClosedPositionsWithTradeMetricAsync(int userID)
         {
             try
             {
-                // Fetching the user's open positions
-                var userOpenPositionsResult = await _context.UserTrades
-                    .Where(x => x.UserID == userID && x.PositionStatus == Constants.PositionStatusOpen)
-                    .Select(x => new UserOpenPositions
-                    {
-                        TradeID = x.TradeID,
-                        UserID = x.UserID,
-                        Symbol = x.Symbol,
-                        CurrentPrice = x.ExitPrice ?? 0,
-                        EntryPrice = x.EntryPrice,
-                        Quantity = x.Quantity,
-                        ProfitAndLoss = _trading.ProfitAndLoss(x.EntryPrice, x.ExitPrice ?? 0, x.Quantity),
-                        Change = _trading.Changes(x.EntryPrice, x.ExitPrice ?? 0)
-                    })
-                    .ToListAsync();
+                var userClosePositions = await GetUsersClosedPositionsAsync(userID);
+                var performanceMetric = await _performanceMetric.GetUserPerformanceMetricAsync(userID);
 
-                // Fetching the user's performance metrics
-                var performanceMetricsResult = await _context.PerformanceMetrics
-                    .Where(x => x.UserID == userID)
-                    .Select(x => new UserPerformanceMetric
-                    {
-                        UserID = x.UserID,
-                        TotalTrades = x.TotalTrades ?? 0,
-                        WinningTrades = x.WinningTrades ?? 0,
-                        LosingTrades = x.LosingTrades ?? 0,
-                        AverageWin = x.AverageWin ?? 0,
-                        AverageLoss = x.AverageLoss ?? 0,
-                        WinRate = x.WinRate ?? 0,
-                        NetProfitAndLoss = x.NetProfitAndLoss ?? 0,
-                        TotalCharge = x.TotalCharge 
-                    })
-                    .FirstOrDefaultAsync();
-
-                // Creating the final result object
-                var result = new UsersPositionsAndPerformanceMetrics
+                var result = new UsersClosedPositionsAndPerformanceMetrics
                 {
-                    usersOpenPositions = userOpenPositionsResult,
-                    performanceMetric = performanceMetricsResult 
+                    userClosePositions = userClosePositions,
+                    performanceMetric = performanceMetric
                 };
                 return result;
             }
@@ -150,6 +186,26 @@ namespace DisciplineTradingJournalAPI.DBModel
                 return null; // Return null instead of an empty list for a single object
             }
         }
-    }
+        public async Task<UsersPositionsAndPerformanceMetrics> GetUsersOpenPositionsWithTradeMetricAsync(int userID)
+        {
+            try
+            {
+                var usersOpenPositions = await GetUsersOpenPositionsAsync(userID);
+                var performanceMetric = await _performanceMetric.GetUserPerformanceMetricAsync(userID);
 
+                var result = new UsersPositionsAndPerformanceMetrics
+                {
+                    usersOpenPositions = usersOpenPositions,
+                    performanceMetric = performanceMetric
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null; // Return null instead of an empty list for a single object
+            }
+        }
+
+    }
 }

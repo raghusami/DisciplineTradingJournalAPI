@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace DisciplineTradingJournalAPI.Controllers
 {
-    [Authorize]
+ //   [Authorize]
     public class UserTradesController : BaseController
     {
         private readonly IUserTradesRepository _userTradesRepository;
         private readonly IUserClaimManager _userClaimManager;
-
         public UserTradesController(IUserTradesRepository userTradesRepository, IUserClaimManager userClaimManager)
         {
             _userTradesRepository = userTradesRepository;
@@ -25,7 +24,8 @@ namespace DisciplineTradingJournalAPI.Controllers
         [Route("GetUserTrades")]
         public async Task<ActionResult<IEnumerable<UserTrades>>> GetUserTrades()
         {
-            var userTrades = await _userTradesRepository.GetAllAsync();
+            var userID = _userClaimManager.UserUniqueId;
+            var userTrades = await _userTradesRepository.GetAllAsync(userID);
             return Ok(userTrades);
         }
 
@@ -47,7 +47,9 @@ namespace DisciplineTradingJournalAPI.Controllers
         [Route("PostUserTrade")]
         public async Task<ActionResult<UserTrades>> PostUserTrade([FromBody] UserTrades userTrade)
         {
-            userTrade.UserID = _userClaimManager.UserUniqueId;
+            
+            var userID = _userClaimManager.UserUniqueId;
+            userTrade.UserID = userID;
             var userTrades = await _userTradesRepository.AddAsync(userTrade);
             return SuccessResponseWithData(userTrades);
         }
@@ -80,7 +82,18 @@ namespace DisciplineTradingJournalAPI.Controllers
         [Route("GetUsersOpenPositions")]
         public async Task<IActionResult> GetUsersOpenPositions()
         {
-            var usersOpenPositionsResult = await _userTradesRepository.GetUsersOpenPositionsAsync(_userClaimManager.UserUniqueId);
+            var usersOpenPositionsResult = await _userTradesRepository.GetUsersOpenPositionsWithTradeMetricAsync(_userClaimManager.UserUniqueId);
+            if (usersOpenPositionsResult == null)
+            {
+                return NotFound();
+            }
+            return SuccessResponseWithData(usersOpenPositionsResult);
+        }
+        [HttpGet]
+        [Route("GetUsersClosedPositions")]
+        public async Task<IActionResult> GetUsersClosedPositions()
+        {
+            var usersOpenPositionsResult = await _userTradesRepository.GetUsersClosedPositionsWithTradeMetricAsync(_userClaimManager.UserUniqueId);
             if (usersOpenPositionsResult == null)
             {
                 return NotFound();

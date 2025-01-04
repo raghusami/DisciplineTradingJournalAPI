@@ -20,6 +20,9 @@ namespace DisciplineTradingJournalAPI.DBModel
         public DbSet<TradingAccountValues> AccountValues { get; set; }
         public DbSet<TradeStrategy> TradeStrategies { get; set; }
         public DbSet<UserAlerts> Alerts { get; set; }
+        public DbSet<OptionsAnalysisCE> OptionsAnalysisCE { get; set; }
+        public DbSet<OptionsAnalysisPE> OptionsAnalysisPE { get; set; }
+        public DbSet<OptionsAnalysisCrudeOil> OptionsAnalysisCrudeOil { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

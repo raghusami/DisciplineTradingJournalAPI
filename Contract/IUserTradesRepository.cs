@@ -6,10 +6,13 @@ namespace DisciplineTradingJournalAPI.Contract
 {
     public interface IUserTradesRepository
     {
-        Task<IEnumerable<UserTrades>> GetAllAsync();
+        Task<List<UserTrades>> GetAllAsync(int userID);
         Task<UserTrades> GetByIdAsync(int tradeID);
         Task<UserTrades> AddAsync(UserTrades userTrade);
-        Task<UsersPositionsAndPerformanceMetrics> GetUsersOpenPositionsAsync(int userID);
+        Task<UsersPositionsAndPerformanceMetrics> GetUsersOpenPositionsWithTradeMetricAsync(int userID);
+        Task<UsersClosedPositionsAndPerformanceMetrics> GetUsersClosedPositionsWithTradeMetricAsync(int userID);
+        Task<List<UserOpenPositions>> GetUsersOpenPositionsAsync(int userID);
+        Task<List<UserClosePositions>> GetUsersClosedPositionsAsync(int userID);
         Task<UserTrades> UpdateAsync(UserTrades userTrade);
         Task DeleteAsync(int tradeID);
     }

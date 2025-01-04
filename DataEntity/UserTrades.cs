@@ -44,6 +44,25 @@ namespace DisciplineTradingJournalAPI.DataEntity
         public int TradeID { get; set; }
         public int UserID { get; set; }
     }
+    public class UserClosePositions
+    {
+        public string Symbol { get; set; }
+        public DateTime? TradeEntryDate { get; set; }
+        public int Quantity { get; set; }
+        public decimal EntryPrice { get; set; }
+        public decimal ExitPrice { get; set; }
+        public decimal? ProfitAndLoss { get; set; }
+        public decimal? BrokerCharges { get; set; }
+        public string MarketType { get; set; }
+        public string TradeType { get; set; }
+        public decimal? Change { get; set; }
+        public string TradeStatus { get; set; }
+        public int TradeID { get; set; }
+        public int UserID { get; set; }
+        public double HoldingDays { get; set; }
+        public decimal InvestmentAmount { get; set; }
+        public decimal? NetROI { get; set; }
+    }
 
     public class UserPerformanceMetric
     {
@@ -57,10 +76,22 @@ namespace DisciplineTradingJournalAPI.DataEntity
         public decimal? WinRate { get; set; }
         public decimal? NetProfitAndLoss { get; set; }
         public decimal? TotalCharge { get; set; }
+        public int? WinningDays { get; set; }
+        public int? LosingDays { get; set; }
+        public decimal? MaxDrawDown { get; set; }
+        public decimal? DayWinRate { get; set; }
+
+        public decimal? TradingScore { get; set; }
     }
     public class UsersPositionsAndPerformanceMetrics
     {
         public List<UserOpenPositions> usersOpenPositions { get; set; }
+
+        public UserPerformanceMetric performanceMetric { get; set; }
+    }
+    public class UsersClosedPositionsAndPerformanceMetrics
+    {
+        public List<UserClosePositions> userClosePositions { get; set; }
 
         public UserPerformanceMetric performanceMetric { get; set; }
     }

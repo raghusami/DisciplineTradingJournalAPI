@@ -16,6 +16,8 @@
             services.AddScoped<IUserClaimManager, UserClaimManager>();
             services.AddScoped<ITradingChargesRepository, TradingChargesRepository>();
             services.AddScoped<IPerformanceMetricRepository, PerformanceMetricRepository>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<IOptionsAnalysis, OptionsAnalysisModel>();
             return services;
         }
     }
