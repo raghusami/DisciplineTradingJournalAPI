@@ -41,17 +41,26 @@ DisciplineTradingJournalAPI is a **JWT-based API** built with **.NET 8.0**, desi
 ```bash
 git clone https://github.com/raghusami/DisciplineTradingJournalAPI.git
 cd DisciplineTradingJournalAPI
+```
+### 2️⃣ Run the following command to apply migrations:
 
-Clone the Repository
-
-Configure the connection string in appsettings.json
-
-Run the following command to apply migrations:
+```bash
 dotnet ef database update
+```
+### 3️⃣ Run the API
 
+```bash
 Run the API
-dotnet run
-
-Access Swagger UI
+```
+## 📌 Access Swagger UI
 Open your browser and go to:
-http://localhost:5000/swagger
+```bash
+http://localhost:5000/swagger/index.html
+
+```
+## ⭐ Star the Repository!
+If you find this project useful, **give it a star ⭐ on GitHub!**
+
+---
+📌 **Created by [Raghu](https://github.com/raghusami)**
+
