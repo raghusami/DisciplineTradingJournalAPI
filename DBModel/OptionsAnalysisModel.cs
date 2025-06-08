@@ -123,7 +123,7 @@ namespace DisciplineTradingJournalAPI.DBModel
                 return $"Error saving analysis data: {ex.Message}";
             }
         }
-        public async Task<string> AddOptionAnalysisGoldDataAsync(CrudeOilInputData inputData)
+        public async Task<string> AddOptionAnalysisCrudeOilDataAsync(CrudeOilInputData inputData)
         {
             string result = string.Empty;
             try
@@ -135,6 +135,12 @@ namespace DisciplineTradingJournalAPI.DBModel
 
                 foreach (var option in inputData.Data.Where(o =>
                  o.CE_LTP >= 0 && o.PE_LTP > 0))
+
+                var maxStrikePrice = underlyingValue + 500;
+                var minStrikePrice = underlyingValue - 500;
+
+                foreach (var option in inputData.Data.Where(o =>
+                 o.CE_StrikePrice >= minStrikePrice && o.CE_StrikePrice <= maxStrikePrice))
                 {
                     // Add CE/PE data
 
@@ -145,7 +151,7 @@ namespace DisciplineTradingJournalAPI.DBModel
                         StrikePrice = Convert.ToInt32(option.CE_StrikePrice),
                         ExpiryDate = Convert.ToDateTime(inputData.ExpiryDate),
                         TradeDate = Convert.ToDateTime(inputData.TradeDate),
-                        Underlying = "Gold",
+                        Underlying = "CrudeOil",
                         CEOpenInterest = Convert.ToInt32(option.CE_OpenInterest),
                         CEChangeInOpenInterest = Convert.ToInt32(option.CE_ChangeInOI),
                         CELastPrice = Convert.ToDouble(option.CE_LTP),
@@ -187,7 +193,6 @@ namespace DisciplineTradingJournalAPI.DBModel
                     // Add PE data
 
                     var expiryMonth = Convert.ToDateTime(option.ExpiryDate);
-
                     var currentMonth = DateTime.Now.Month;
                     if (option.PE != null && currentMonth == expiryMonth.Month)
                     {

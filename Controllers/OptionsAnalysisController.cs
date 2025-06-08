@@ -2,6 +2,9 @@
 using DisciplineTradingJournalAPI.DataEntity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System;
+using System.Linq;
+using DisciplineTradingJournalAPI.DBModel;
 
 namespace DisciplineTradingJournalAPI.Controllers
 {
@@ -17,7 +20,6 @@ namespace DisciplineTradingJournalAPI.Controllers
         [Route("PostOptionsData")]
         public async Task<IActionResult> PostOptionsData([FromBody] NSEOptionChainResponse inputData)
         {
-           
             var userTrades = await _optionsAnalysis.AddOptionAnalysisDataAsync(inputData);
             return SuccessResponseWithData(userTrades);
         }
@@ -35,11 +37,11 @@ namespace DisciplineTradingJournalAPI.Controllers
             var userTrades = await _optionsAnalysis.AddOptionAnalysisCrudeOilDataAsync(addDays);
             return SuccessResponseWithData(userTrades);
         }
-        [HttpGet]
-        [Route("GetDayCrudeOilData")]
-        public async Task<IActionResult> GetDayCrudeOilData()
+        [HttpPost]
+        [Route("PostCrudeOilOptionsData")]
+        public async Task<IActionResult> PostCrudeOilOptionsData([FromBody] CrudeOilInputData inputData)
         {
-            var userTrades = await _optionsAnalysis.AddDayCrudeOilDataAsync();
+            var userTrades = await _optionsAnalysis.AddOptionAnalysisCrudeOilDataAsync(inputData);
             return SuccessResponseWithData(userTrades);
         }
     }

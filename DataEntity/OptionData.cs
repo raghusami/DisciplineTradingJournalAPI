@@ -1,3 +1,4 @@
+
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -28,7 +29,6 @@ namespace DisciplineTradingJournalAPI.DataEntity
         [JsonProperty("strikePrices")]
         public List<double> StrikePrices { get; set; }
     }
-
     public class OptionData
     {
         public int StrikePrice { get; set; }
@@ -115,7 +115,7 @@ namespace DisciplineTradingJournalAPI.DataEntity
         public decimal PE_NetChange { get; set; }
         public decimal PE_OpenInterest { get; set; }
         public decimal PE_Volume { get; set; }
-        public object Symbol { get; set; }
+        public object Symbol { get; set; } 
         public decimal UnderlyingValue { get; set; }
     }
 
@@ -125,7 +125,6 @@ namespace DisciplineTradingJournalAPI.DataEntity
         public List<CrudeOilOptionData> Data { get; set; }
 
         public string TradeDate { get; set; }
-
         public string ExpiryDate { get; set; }
 
         public string CommodityType { get; set; }
@@ -139,5 +138,8 @@ namespace DisciplineTradingJournalAPI.DataEntity
     public class ApiResponse
     {
         public MCXResponse d { get; set; }
+    }
+        public string ExpiryDate { get; set;}
+ 
     }
 }

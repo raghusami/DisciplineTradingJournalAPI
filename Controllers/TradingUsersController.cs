@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DisciplineTradingJournalAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class TradingUsersController : BaseController
     {
         private readonly ITradingUsersRepository _tradingUsersRepository;
@@ -50,9 +50,9 @@ namespace DisciplineTradingJournalAPI.Controllers
         }
 
         // PUT: api/TradingUsers/5
-        [HttpPost]
+        [HttpPut]
         [Route("PutTradingUser")]
-        public async Task<IActionResult> PutTradingUser([FromServices] TradingUsers tradingUser)
+        public async Task<IActionResult> PutTradingUser([FromBody] TradingUsers tradingUser)
         {
 
             try

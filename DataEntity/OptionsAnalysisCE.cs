@@ -34,8 +34,7 @@ namespace DisciplineTradingJournalAPI.DataEntity
         public double ImpliedVolatility { get; set; }
         public double UnderlyingValue { get; set; }
     }
-    public class OptionsAnalysisCrudeOil
-
+        public class OptionsAnalysisCrudeOil
     {
         [Key]
         public int Id { get; set; }
@@ -54,7 +53,6 @@ namespace DisciplineTradingJournalAPI.DataEntity
         public decimal PEVolume { get; set; }
 
     }
-
     public class DayCrudeOilData
 
     {

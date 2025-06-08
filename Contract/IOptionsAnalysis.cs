@@ -12,7 +12,8 @@ namespace DisciplineTradingJournalAPI.Contract
         Task<string> AddDayCrudeOilDataAsync();
 
         Task<string> AddOptionAnalysisGoldDataAsync(CrudeOilInputData inputData);
+        Task<string> AddOptionAnalysisDataAsync(InputData inputData);
 
-
+        Task<string> AddOptionAnalysisCrudeOilDataAsync(CrudeOilInputData inputData);
     }
 }
