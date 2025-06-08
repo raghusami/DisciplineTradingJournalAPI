@@ -133,9 +133,6 @@ namespace DisciplineTradingJournalAPI.DBModel
 
                 var underlyingValue = inputData.Data.First().UnderlyingValue;
 
-                foreach (var option in inputData.Data.Where(o =>
-                 o.CE_LTP >= 0 && o.PE_LTP > 0))
-
                 var maxStrikePrice = underlyingValue + 500;
                 var minStrikePrice = underlyingValue - 500;
 
@@ -256,6 +253,14 @@ namespace DisciplineTradingJournalAPI.DBModel
             throw new FormatException("Invalid timestamp format.");
         }
 
+        public Task<string> AddOptionAnalysisGoldDataAsync(CrudeOilInputData inputData)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<string> AddOptionAnalysisDataAsync(InputData inputData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

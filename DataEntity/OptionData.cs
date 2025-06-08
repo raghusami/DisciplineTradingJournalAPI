@@ -138,7 +138,7 @@ namespace DisciplineTradingJournalAPI.DataEntity
     public class ApiResponse
     {
         public MCXResponse d { get; set; }
-    }
+    
         public string ExpiryDate { get; set;}
  
     }
