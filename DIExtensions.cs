@@ -2,6 +2,7 @@
 {
     using DisciplineTradingJournalAPI.Contract;
     using DisciplineTradingJournalAPI.DBModel;
+    using DisciplineTradingJournalAPI.DesignPattern;
     using DisciplineTradingJournalAPI.Helper;
     using JWTAuthenticationManager;
     using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,13 @@
             services.AddScoped<IUserClaimManager, UserClaimManager>();
             services.AddScoped<ITradingChargesRepository, TradingChargesRepository>();
             services.AddScoped<IPerformanceMetricRepository, PerformanceMetricRepository>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<IOptionsAnalysis, OptionsAnalysisModel>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISeriesTracker, SeriesTrackerRepository>();
+            services.AddScoped<ISeriesTradeDetailsRepository, SeriesTradeDetailsRepository>();
+            services.AddScoped<SeriesService>();
+
             return services;
         }
     }

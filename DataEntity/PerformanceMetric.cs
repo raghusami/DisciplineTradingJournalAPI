@@ -17,9 +17,14 @@ namespace DisciplineTradingJournalAPI.DataEntity
         public decimal? WinRate { get; set; }
         public decimal? NetProfitAndLoss { get; set; }
         public decimal? TotalCharge { get; set; }
+        public int? WinningDays { get; set; }
+        public int? LosingDays { get; set; }
+        public decimal? MaxDrawDown { get; set; }
+        public decimal? DayWinRate { get; set; }
+
+        public decimal? TradingScore { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
-
 
     }
 

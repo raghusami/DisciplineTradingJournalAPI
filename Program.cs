@@ -40,7 +40,8 @@ builder.Logging.AddEventSourceLogger();
 
 // DbContext setup
 builder.Services.AddDbContext<TradingJournalDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("DBConfiguration")));
+    options.UseSqlServer(configuration.GetConnectionString("DBConfiguration"),
+    sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
 
 // IOptionsSnapshot Implementation
 builder.Services.AddOptions()

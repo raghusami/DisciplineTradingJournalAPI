@@ -1,9 +1,7 @@
 ﻿using DisciplineTradingJournalAPI.Contract;
 using DisciplineTradingJournalAPI.DataEntity;
-using JWTAuthenticationManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
