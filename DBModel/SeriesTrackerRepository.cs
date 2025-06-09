@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DisciplineTradingJournalAPI.DBModel
 {
-    public class SeriesTrackerRepository : ISeriesTracker
+    public class SeriesTrackerRepository : ISeriesTrackerRepository
     {
         private readonly TradingJournalDbContext _context;
 

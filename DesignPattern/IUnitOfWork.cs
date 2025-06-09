@@ -12,7 +12,7 @@ namespace DisciplineTradingJournalAPI.DesignPattern
 
     public interface IUnitOfWork : IDisposable
     {
-        ISeriesTracker SeriesTrackers { get; }
+        ISeriesTrackerRepository SeriesTrackers { get; }
         ISeriesTradeDetailsRepository SeriesTradeDetails { get; }
         Task<int> CompleteAsync();
     }

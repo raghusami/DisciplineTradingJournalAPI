@@ -4,8 +4,8 @@
     using DisciplineTradingJournalAPI.DBModel;
     using DisciplineTradingJournalAPI.DesignPattern;
     using DisciplineTradingJournalAPI.Helper;
-    using JWTAuthenticationManager;
     using Microsoft.Extensions.DependencyInjection;
+    using JWTAuthenticationManager;
 
     public static class DIExtensions
     {
@@ -20,11 +20,13 @@
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<IOptionsAnalysis, OptionsAnalysisModel>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ISeriesTracker, SeriesTrackerRepository>();
+            services.AddScoped<ISeriesTrackerRepository, SeriesTrackerRepository>();
             services.AddScoped<ISeriesTradeDetailsRepository, SeriesTradeDetailsRepository>();
+            services.AddScoped<IPreTradeChecklistRepository, PreTradeChecklistRepository>();
+            services.AddScoped<ITradeEmotionRepository, TradeEmotionRepository>();
             services.AddScoped<SeriesService>();
-
             return services;
+
         }
     }
 }

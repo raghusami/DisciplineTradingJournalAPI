@@ -30,6 +30,10 @@ namespace DisciplineTradingJournalAPI.DBModel
         public DbSet<SeriesTracker> SeriesTracker { get; set; }
         public DbSet<SeriesTradeDetails> SeriesTradeDetails { get; set; }
 
+        public DbSet<PreTradeChecklist> PreTradeChecklist { get; set; }
+
+        public DbSet<TradeEmotions> TradeEmotions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

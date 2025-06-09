@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 
 namespace DisciplineTradingJournalAPI.Contract
 {
-    public interface ISeriesTracker
+    public interface IPreTradeChecklistRepository
     {
-        Task AddAsync(SeriesTracker tradingUser);
-        
+        Task AddAsync(PreTradeChecklist preTradeChecklist);
     }
 }

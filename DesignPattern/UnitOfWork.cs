@@ -9,7 +9,7 @@ namespace DisciplineTradingJournalAPI.DesignPattern
     {
         private readonly TradingJournalDbContext _context;
 
-        public ISeriesTracker SeriesTrackers { get; private set; }
+        public ISeriesTrackerRepository SeriesTrackers { get; private set; }
         public ISeriesTradeDetailsRepository SeriesTradeDetails { get; private set; }
 
         public UnitOfWork(TradingJournalDbContext context)
